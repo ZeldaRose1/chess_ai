@@ -6,4 +6,10 @@ test: test_board.cpp board.h
 	./test
 
 clean:
-	rm chess test
+	if [ -f chess ]; then \
+		rm chess; \
+	fi;
+	if [ -f test ]; then \
+		rm test; \
+	fi;
+

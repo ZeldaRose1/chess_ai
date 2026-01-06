@@ -6,57 +6,73 @@
 
 using namespace std;
 
-int test_subboard_select_operator() {
-	SubBoard sb = SubBoard();
+void test_setter_getter() {
+    // TODO Add Implementation after solving setters
+    Board b;
+    char tmp_char = 'z';
 
-	// Test 1: single piece in slot 0
-	sb.setBoard(5);
-	assert(sb[0] == 5);
+    // Test 1: fill empty board
+    // Perform setting
+    for (int i = 1; i <= 8; i++) {
+	for (int j = 1; j <= 8; j++) {
+	    // Set new value
+	    b.set_value(i, j, 'p'); // Fill entire board with black pawns
+	}
+    }
 
-	// Test 2: Piece in slot 0 and piece in slot 1
-	sb.setBoard(5 + (13 * 5));
-	assert(sb[0] == 5);
-	assert(sb[1] == 5);
+    // Test setting
+    for (int i = 1; i <= 8; i++) {
+	for (int j = 1; j <= 8; j++) {
+	    tmp_char = b.get_index(i, j);
+	    assert(tmp_char == 'p'); // Fill entire board with black pawns
+	}
+    }
 
-	// Test 3: Piece in slot 1 and none in slot 0
-	sb.setBoard(pow(13, 1) * 5);
-	assert(sb[0] == 0);
-	assert(sb[1] == 5);
+    // Test 2: Fill with only white pawns and test
+    // Perform setting
+    for (int i = 1; i <= 8; i++) {
+	for (int j = 1; j <= 8; j++) {
 
-	// Test 4: All pieces return 1
-	unsigned long long int temp = 0;
-	for (int i = 0; i < 16; i++) {
-		temp += pow(13, i);
-	};
-	sb.setBoard(temp);
-	
-	for (int i = 0; i < 16; i++) {
-		assert(sb[i] == 1);
-	};
-	
-	// Test 5: All pieces return 12
-	sb.setBoard(0);
-	temp = 0;
-	for (int i = 0; i < 16; i++) {
-		sb.setBoard(sb.getBoard() + (pow(13, i) * 12));
-		temp += (pow(13, i) * 12);
-//		cout << "temp value: " << temp << endl;
-		cout << "Board Value: " << sb.getBoard() << " at " << i << endl;
-		assert (sb[i] == 12);
-	};
-	sb.setBoard(temp);
+	    // Debug statement to print value before changes
+	    if (i == 1 && j == 8) {
+		// std::cout << "Value of ab before setting i=1, j=8\t\t" << b.ab << std::endl;
+		cout << "";
+	    }
 
-	for (int i = 0; i < 16; i++) {
-		cout << "Value at " << i << " is " << sb[i] << endl;
-		assert(sb[i] == 12);
-	};
+	    b.set_value(i, j, 'n'); // Clear board
 
-	return 1;
-}
+	    // Debug Statement to print value after changes
+	    /*
+	    if (i == 1 && j == 8) {
+		std::cout << "Value of ab after setting i=1, j=8\t\t" << b.ab << std::endl;
+	    }
+	    */
+	}
+    }
+
+    // Test setting
+    for (int i = 1; i <= 8; i++) {
+	for (int j = 1; j <= 8; j++) {
+	    tmp_char = b.get_index(i, j);
+	    
+	    if (tmp_char != 'n'){ // Fail condition
+		b.get_index(i, j);
+		std::cout << "tmp_char for test 2 is incorrect" << std::endl;
+		std::cout << "i: " << i << "\t\tj:" << j << "\t\ttmp_char: " << tmp_char << std::endl;
+		std::cout << "\n";
+	    }
+
+	    // std::cout << "tmp_char for test2: " << tmp_char << std::endl;
+	    assert(tmp_char == 'n'); // Fill entire board with black pawns
+
+	}
+    }
+
+};
+
 
 int main() {
-
-	test_subboard_select_operator();
-
-	cout << "All tests finished successfully" << endl;
+    test_setter_getter();
+    std::cout << "All tests finished successfully!" << endl;
+    return 0;
 }
