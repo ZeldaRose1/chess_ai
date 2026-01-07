@@ -11,6 +11,40 @@ void test_setter_getter() {
     Board b;
     char tmp_char = 'z';
 
+    // Test 0: Initialize board
+    b.print_board();
+
+    // Verify row 1
+    assert (b.get_index(1, 1) == 'R');
+    assert (b.get_index(1, 2) == 'H');
+    assert (b.get_index(1, 3) == 'B');
+    assert (b.get_index(1, 4) == 'Q');
+    assert (b.get_index(1, 5) == 'K');
+    assert (b.get_index(1, 6) == 'B');
+    assert (b.get_index(1, 7) == 'H');
+    assert (b.get_index(1, 8) == 'R');
+
+    // Check for all pawns (Verify row 2)
+    for (int i = 1; i <= 8; i++) {
+	assert(b.get_index(2, i) == 'P');
+    }
+
+    // Verify row 7
+    for (int i = 1; i <= 8; i++) {
+	assert(b.get_index(7, i) == 'p');
+    }
+
+    // Verify row 8
+    assert (b.get_index(8, 1) == 'r');
+    assert (b.get_index(8, 2) == 'h');
+    assert (b.get_index(8, 3) == 'b');
+    assert (b.get_index(8, 4) == 'q');
+    assert (b.get_index(8, 5) == 'k');
+    assert (b.get_index(8, 6) == 'b');
+    assert (b.get_index(8, 7) == 'h');
+    assert (b.get_index(8, 8) == 'r');
+
+
     // Test 1: fill empty board
     // Perform setting
     for (int i = 1; i <= 8; i++) {
@@ -32,21 +66,7 @@ void test_setter_getter() {
     // Perform setting
     for (int i = 1; i <= 8; i++) {
 	for (int j = 1; j <= 8; j++) {
-
-	    // Debug statement to print value before changes
-	    if (i == 1 && j == 8) {
-		// std::cout << "Value of ab before setting i=1, j=8\t\t" << b.ab << std::endl;
-		cout << "";
-	    }
-
 	    b.set_value(i, j, 'n'); // Clear board
-
-	    // Debug Statement to print value after changes
-	    /*
-	    if (i == 1 && j == 8) {
-		std::cout << "Value of ab after setting i=1, j=8\t\t" << b.ab << std::endl;
-	    }
-	    */
 	}
     }
 

@@ -25,19 +25,21 @@ using namespace std;
 class Board{
     public:
 	Board(); // Constructor
-	// Get the values with either one or two indices.
-//	unsigned short int operator[](int);
-	char get_index(int, int);
-
-	// Set value with an index and a value
+	char get_index(int, int); // Row index, column index
 	void set_value(int, int, char); // Row index, column index, piece character
+	void print_board(); // Print board to screen
+
+    private:
+	// Segments of the board by algebraic notation
 	unsigned long long int ab;
 	unsigned long long int cd;
 	unsigned long long int ef;
 	unsigned long long int gh;
 
-    private:
+	// Pointer to help us choose the correct sub-board
 	unsigned long long int* utility_pointer;
+
+	// Functions to convert values to character representations
 	char i_to_p(int);  // Convert integer value of a piece to it's char representation
 	int p_to_i(char); // Convert character value of piece to it's int representation
 };
@@ -50,10 +52,10 @@ class Board{
 
 Board::Board() {
     // Constructor for board.
-    ab = 0;
+    ab = 1229782938568512322;
     cd = 0;
     ef = 0;
-    gh = 0;
+    gh = 14607596558135188957;
 };
 
 int Board::p_to_i(char c) {
@@ -300,11 +302,27 @@ char Board::get_index(int i, int j) {
 	    break;
     }
 
-    unsigned long long int exponent = 8 * ((i - 1) % 2) + (j - 1);
-    unsigned short int return_val = (*utility_pointer) / ((unsigned long long int) pow(16, exponent)) % 16;
+    unsigned short int exponent = 8 * ((i - 1) % 2) + (j - 1);
+    unsigned long long int return_val = ((*utility_pointer) / ((unsigned long long int) pow(16, exponent))) % 16;
     utility_pointer = nullptr;
     return i_to_p(return_val);
     
 
 };
 
+
+void Board::print_board() {
+    // Prints board to screen
+
+    // Initializations
+    char cur_space;
+
+    // Loop over all squares on the board
+    for (int i = 8; i >= 1; i--) {
+	for (int j = 1; j <= 8; j++) {
+	    cur_space = get_index(i, j);
+	    std::cout << cur_space << ' ';
+	}
+	std::cout << std::endl;
+    }
+};

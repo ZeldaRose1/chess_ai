@@ -11,6 +11,10 @@ using namespace std;
 
 
 int main() {
-	cout << "This program worked successfully" << endl;
-	cout << "Successfully imported board.h" << endl;
+    cout << "Successfully imported board.h" << endl;
+    Board b;
+    b.print_board();
+
+
+    cout << "This program worked successfully" << endl;
 }
