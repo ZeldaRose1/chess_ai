@@ -1,56 +1,52 @@
-# Set root directory to be the makefile holder
-ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+### Define folder structure
 
-# Define all subdirectories
-SRC_DIR		:= $(ROOT_DIR)/src
-INC_DIR		:= $(ROOT_DIR)/include
-BUILD_DIR	:= $(ROOT_DIR)/build
+ROOT_DIR	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+#
 BIN_DIR		:= $(ROOT_DIR)/bin
-TEST_DIR	:= $(ROOT_DIR)/tests
+BUILD_DIR 	:= $(ROOT_DIR)/build
+INC_DIR 	:= $(ROOT_DIR)/include
+LIBRARY_DIR 	:= $(ROOT_DIR)/lib
+SRC_DIR 	:= $(ROOT_DIR)/src
+TEST_DIR 	:= $(ROOT_DIR)/tests
+#
+MAIN_FILE	:= $(BIN_DIR)/chess
+# TEST_FILE	:= $(TEST_DIR) ## Thinking through if I need this
 
-# Compiler options
+### Compiler options
 CXX		:= g++
 CXXFLAGS	:= -std=c++20 -Wall -I$(INC_DIR)
 
-# Collect files for the main program
-SRCS		:= $(wildcard $(SRC_DIR)/*.cpp)
-MAIN		:= $(SRC_DIR)/chess.cpp
-SRCS_NO_MAIN	:= $(filter-out $(MAIN), $(SRCS))
-MAIN_OBJS	:= $(SRCS_NO_MAIN:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
-ALL_OBJS	:= $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
-MAIN_O		:= $(BUILD_DIR)/chess.o
+### Collect file locations
+SOURCE		:= $(wildcard $(SRC_DIR)/*.cpp)
+OBJECTS		:= $(SOURCE:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
-# Collect files for testing
-TST_SRC		:= $(wildcard $(TEST_DIR)/*.cpp)
-TST_OBJ		:= $(TST_SRC:$(TEST_DIR)/%.cpp=$(BUILD_DIR)/tests/%.o)
+TST		:= $(wildcard $(TEST_DIR)/*.cpp)
+TST_OBJ		:= $(TST:$(TEST_DIR)/*.cpp=$(BUILD_DIR)/tests/%.o)
 
-# Make vars for the executables
-CHESS		:= $(BIN_DIR)/chess
-TEST		:= $(BIN_DIR)/test_board
 
-# Set default make argument to build the target file
-all: $(MAIN)
-
-$(MAIN): $(MAIN_O) $(MAIN_OBJS)
+$(MAIN_FILE): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $^ -o $@
 
-$(TEST): $(TST_OBJ) $(MAIN_OBJS)
-	@mkdir -p $(BIN_DIR)
-	$(CXX) -g $^ -o $@
-
-# $(BUILD_DIR)%.o: $(SRC_DIR)/%.cpp
-$(ALL_OBJS): $(SRCS)
+$(OBJECTS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp 
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(TST_OBJ): $(TEST_SRC) $(MAIN_OBJS)
+
+# Not sure how to handle testing yet so we'll hard code it.
+.PHONY: test
+test: $(BUILD_DIR)/tests/test_board.o $(BUILD_DIR)/board.o
 	@mkdir -p $(BUILD_DIR)/tests
-	$(CXX) $(CXXFLAGS) -g -c $< -o $@
+	$(CXX) -o $(BIN_DIR)/test $^
 
+$(BUILD_DIR)/tests/test_board.o: $(TEST_DIR)/test_board.cpp 
+	@mkdir -p $(BUILD_DIR)/tests
+	$(CXX) $(CXXFLAGS) -c $(TEST_DIR)/test_board.cpp -o $(BUILD_DIR)/tests/test_board.o
+
+
+
+# Clean folder code
+.PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	rm -rf $(BIN_DIR) $(BUILD_DIR)
 
-#
-#test: $(TEST_DIR)/test_board.cpp $(BUID_DIR)/board.o
-#	g++ ../tests/test_board.cpp ./board.o -g -o test
