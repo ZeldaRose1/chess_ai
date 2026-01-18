@@ -1,12 +1,13 @@
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
-#include <cmath>
+
 #include "board.h"
 
 using namespace std;
 
 /*
- * Function definitions for the Board class
+   Function definitions for the Board class
 */
 
 Board::Board() {
@@ -15,7 +16,21 @@ Board::Board() {
     cd = 0;
     ef = 0;
     gh = 14607596558135188957;
+
+    white_turn = true;
 };
+
+Board::Board(const Board &input) {
+    // Copy Constructor
+    ab = input.ab;
+    cd = input.cd;
+    ef = input.ef;
+    gh = input.gh;
+    
+    white_turn = input.white_turn;
+    next_moves = input.next_moves;
+    board_history = board_history;
+}
 
 int Board::p_to_i(char c) {
     /*
@@ -285,3 +300,23 @@ void Board::print_board() {
 	std::cout << std::endl;
     }
 };
+
+
+void Board::direct_set_board_section(int section_no, unsigned long long int new_val) {
+    switch(section_no) {
+	case 1: // This is the lower section of the board
+	    ab = new_val;
+	    break;
+	case 2: // Mid-lower
+	    cd = new_val;
+	    break;
+	case 3: // Mid-upper
+	    ef = new_val;
+	    break;
+	case 4: // Top
+	    gh = new_val;
+	    break;
+	default:
+	    std::cout << "Invalid argument passed to direct_set_board_section()\t\t" << section_no << std::endl;
+    };
+}

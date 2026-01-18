@@ -1,7 +1,9 @@
 #pragma once
+
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
-#include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -25,9 +27,16 @@ using namespace std;
 class Board{
     public:
 	Board(); // Constructor
+	Board(const Board &); // Copy Constructor
+	void print_board(); // Print board to screen
+
 	char get_index(int, int); // Row index, column index
 	void set_value(int, int, char); // Row index, column index, piece character
-	void print_board(); // Print board to screen
+
+	bool get_white_turn();
+	void set_white_turn(bool);
+
+	void direct_set_board_section(int, unsigned long long int); // Only meant to be used for testing
 
     private:
 	// Segments of the board by algebraic notation
@@ -38,6 +47,14 @@ class Board{
 
 	// Pointer to help us choose the correct sub-board
 	unsigned long long int* utility_pointer;
+
+	// Boolean value to track whom's turn it is
+	bool white_turn;
+
+	// Vector to store all potential moves
+	vector<Board> next_moves;
+	// Vector to store all moves preceding the current game state.
+	vector<Board> board_history; // Effectively treated as a stack
 
 	// Functions to convert values to character representations
 	char i_to_p(int);  // Convert integer value of a piece to it's char representation
