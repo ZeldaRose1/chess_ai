@@ -10,9 +10,6 @@ void test_setter_getter() {
     Board b;
     char tmp_char = 'z';
 
-    // Test 0: Initialize board
-    b.print_board();
-
     // Verify row 1
     assert (b.get_index(1, 1) == 'R');
     assert (b.get_index(1, 2) == 'H');
@@ -92,6 +89,6 @@ void test_setter_getter() {
 
 int test_board() {
     test_setter_getter();
-    std::cout << "All tests finished successfully!" << endl;
+    std::cout << "All tests in test_board.cpp finished successfully!" << endl;
     return 0;
 }

@@ -36,7 +36,7 @@ $(OBJECTS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 
-# .PHONY: test
+# Main testing file for all modules
 test: $(TST_OBJ) $(MAIN_TEST) $(OBJECTS_NO_MAIN)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -g -o $(BIN_DIR)/$@
@@ -45,24 +45,9 @@ test: $(TST_OBJ) $(MAIN_TEST) $(OBJECTS_NO_MAIN)
 $(TST_OBJ): $(BUILD_DIR)/tests/test_%.o: $(BUILD_DIR)/%.o $(TEST_DIR)/test_%.cpp
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(BUILD_DIR)/tests
-	$(CXX) $(CXXFLAGS) -c $^ -o $@
+	$(CXX) $(CXXFLAGS) -c -g $^ -o $@
 
 
-# Not sure how to handle testing yet so we'll hard code it.
-# .PHONY: test
-# test: $(BUILD_DIR)/tests/test_board.o $(BUILD_DIR)/board.o
-# 	@mkdir -p $(BUILD_DIR)/tests
-# 	$(CXX) -o $(BIN_DIR)/test $^
-# 
-# $(BUILD_DIR)/tests/test_board.o: $(TEST_DIR)/test_board.cpp 
-# 	@mkdir -p $(BUILD_DIR)/tests
-# 	$(CXX) $(CXXFLAGS) -c $(TEST_DIR)/test_board.cpp -o $(BUILD_DIR)/tests/test_board.o
-# 
-# 
-# $(BUILD_DIR)/tests/test_move_gen.o: $(TEST_DIR)/test_move_gen.cpp 
-# 	@mkdir -p $(BUILD_DIR)/tests
-# 	$(CXX) $(CXXFLAGS) -c $(TEST_DIR)/test_move_gen.cpp -o $(BUILD_DIR)/tests/test_move_gen.o
-# 
 
 # Clean folder code
 .PHONY: clean

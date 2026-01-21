@@ -8,7 +8,7 @@ Logic to generate moves given a game state.
 MoveGen::MoveGen(){
 };
 
-Board MoveGen::get_board() {
+Board& MoveGen::get_board() {
     return b;
 };
 
@@ -17,48 +17,54 @@ void MoveGen::set_board(Board input_board) {
 };
 
 void MoveGen::generate_moves() {
+    // Function to generate all possible moves
+    if (b.next_moves.size() > 0) {
+	b.next_moves.clear();
+    };
     // Function will loop through all squares and call the specific piece_move function
     for (int i = 1; i <= 8; i++) {
 	for (int j = 1; j <= 8; j++) {
 	    switch (b.get_index(i, j)) {
+		case 'n':
+		    continue;
 		case 'p':
 		    pawn_move(i, j);
-		    break;
+		    continue;
 		case 'P':
 		    pawn_move(i, j);
-		    break;
+		    continue;
 		case 'b':
 		    bishop_move(i, j);
-		    break;
+		    continue;
 		case 'B':
 		    bishop_move(i, j);
-		    break;
+		    continue;
 		case 'r':
 		    rook_move(i, j);
-		    break;
+		    continue;
 		case 'R':
 		    rook_move(i, j);
-		    break;
+		    continue;
 		case 'h':
 		    knight_move(i, j);
-		    break;
+		    continue;
 		case 'H':
 		    knight_move(i, j);
-		    break;
+		    continue;
 		case 'q':
 		    queen_move(i, j);
-		    break;
+		    continue;
 		case 'Q':
 		    queen_move(i, j);
-		    break;
+		    continue;
 		case 'k':
 		    king_move(i, j);
-		    break;
+		    continue;
 		case 'K':
 		    king_move(i, j);
-		    break;
+		    continue;
 		default:
-		    break;
+		    continue;
 	    }
 	}
     }
@@ -74,7 +80,7 @@ void MoveGen::pawn_move(int i, int j){
     
     /*       Ensure pre-conditions      */
 
-    if (b.get_index(i, j) != 'p' || b.get_index(i, j) != 'P') {
+    if (b.get_index(i, j) != 'p' && b.get_index(i, j) != 'P') {
 	std::cout << "Error: pawn_move() called on a non-pawn piece." << std::endl;
 	throw std::logic_error("pawn_move() called on non-pawn piece");
     }

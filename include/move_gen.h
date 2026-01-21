@@ -8,7 +8,7 @@ This class will be used to create any future moves
 
 class MoveGen{
     public:
-	Board get_board();
+	Board& get_board();
 	MoveGen();
 	void set_board(Board);
 	void generate_moves();
