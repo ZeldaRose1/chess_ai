@@ -1,6 +1,6 @@
 #include <cassert>
 #include <iostream>
-#include "movegen.h"
+#include "move_gen.h"
 
 /*
 File will test all functionality of the Game class.
@@ -20,14 +20,18 @@ bool test_pawn_move() {
 	std::cout << "test_pawn_move() failed at single pawn test" << std::endl;
 	return false;
     }
+
+    return true;
 };
 
-int main() {
+
+// Main driver function for this test module
+int test_move_gen() {
     // Run all functions defined above.
     bool all_pass = true;
 
     // Run test_setter and getter if no tests have failed to this point.
-    all_pass = all_pass && test_setter_and_getter();
+    all_pass = all_pass && test_pawn_move();
     
     if (all_pass)
 	std::cout << "All tests ran successfully!" << std::endl;

@@ -90,7 +90,7 @@ void test_setter_getter() {
 };
 
 
-int main() {
+int test_board() {
     test_setter_getter();
     std::cout << "All tests finished successfully!" << endl;
     return 0;

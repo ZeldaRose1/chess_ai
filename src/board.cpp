@@ -48,7 +48,7 @@ int Board::p_to_i(char c) {
 	    P: white pawn - 01
 	    R: white rook - 02
 	    B: white bishop - 03
-	    H: white knight (horse)- 04
+	    H: white knight (horse) - 04
 	    Q: white queen - 05
 	    K: white king - 06
     */
@@ -320,3 +320,12 @@ void Board::direct_set_board_section(int section_no, unsigned long long int new_
 	    std::cout << "Invalid argument passed to direct_set_board_section()\t\t" << section_no << std::endl;
     };
 }
+
+
+bool Board::get_white_turn(){
+    return white_turn;
+};
+
+void Board::set_white_turn(bool wt){
+    white_turn = wt;
+};

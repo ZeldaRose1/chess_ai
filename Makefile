@@ -19,13 +19,16 @@ CXXFLAGS	:= -std=c++20 -Wall -I$(INC_DIR)
 ### Collect file locations
 SOURCE		:= $(wildcard $(SRC_DIR)/*.cpp)
 OBJECTS		:= $(SOURCE:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+OBJECTS_NO_MAIN	:= $(filter-out $(BUILD_DIR)/chess.o, $(OBJECTS))
 
+MAIN_TEST	:= $(TEST_DIR)/test_all.cpp
 TST		:= $(wildcard $(TEST_DIR)/*.cpp)
-TST_OBJ		:= $(TST:$(TEST_DIR)/*.cpp=$(BUILD_DIR)/tests/%.o)
-
+TST		:= $(filter-out $(MAIN_TEST), $(TST))
+TST_OBJ		:= $(TST:$(TEST_DIR)/%.cpp=$(BUILD_DIR)/tests/%.o)
 
 $(MAIN_FILE): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
+	echo "$(TST_OBJ)"
 	$(CXX) $^ -o $@
 
 $(OBJECTS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp 
@@ -33,17 +36,33 @@ $(OBJECTS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 
+# .PHONY: test
+test: $(TST_OBJ) $(MAIN_TEST) $(OBJECTS_NO_MAIN)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -g -o $(BIN_DIR)/$@
+
+# Attempt to automate test files
+$(TST_OBJ): $(BUILD_DIR)/tests/test_%.o: $(BUILD_DIR)/%.o $(TEST_DIR)/test_%.cpp
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)/tests
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
+
+
 # Not sure how to handle testing yet so we'll hard code it.
-.PHONY: test
-test: $(BUILD_DIR)/tests/test_board.o $(BUILD_DIR)/board.o
-	@mkdir -p $(BUILD_DIR)/tests
-	$(CXX) -o $(BIN_DIR)/test $^
-
-$(BUILD_DIR)/tests/test_board.o: $(TEST_DIR)/test_board.cpp 
-	@mkdir -p $(BUILD_DIR)/tests
-	$(CXX) $(CXXFLAGS) -c $(TEST_DIR)/test_board.cpp -o $(BUILD_DIR)/tests/test_board.o
-
-
+# .PHONY: test
+# test: $(BUILD_DIR)/tests/test_board.o $(BUILD_DIR)/board.o
+# 	@mkdir -p $(BUILD_DIR)/tests
+# 	$(CXX) -o $(BIN_DIR)/test $^
+# 
+# $(BUILD_DIR)/tests/test_board.o: $(TEST_DIR)/test_board.cpp 
+# 	@mkdir -p $(BUILD_DIR)/tests
+# 	$(CXX) $(CXXFLAGS) -c $(TEST_DIR)/test_board.cpp -o $(BUILD_DIR)/tests/test_board.o
+# 
+# 
+# $(BUILD_DIR)/tests/test_move_gen.o: $(TEST_DIR)/test_move_gen.cpp 
+# 	@mkdir -p $(BUILD_DIR)/tests
+# 	$(CXX) $(CXXFLAGS) -c $(TEST_DIR)/test_move_gen.cpp -o $(BUILD_DIR)/tests/test_move_gen.o
+# 
 
 # Clean folder code
 .PHONY: clean

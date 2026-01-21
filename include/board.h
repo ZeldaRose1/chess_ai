@@ -38,6 +38,11 @@ class Board{
 
 	void direct_set_board_section(int, unsigned long long int); // Only meant to be used for testing
 
+	// Vector to store all potential moves
+	vector<Board> next_moves;
+	// Vector to store all moves preceding the current game state.
+	vector<Board> board_history; // Effectively treated as a stack
+
     private:
 	// Segments of the board by algebraic notation
 	unsigned long long int ab;
@@ -51,14 +56,12 @@ class Board{
 	// Boolean value to track whom's turn it is
 	bool white_turn;
 
-	// Vector to store all potential moves
-	vector<Board> next_moves;
-	// Vector to store all moves preceding the current game state.
-	vector<Board> board_history; // Effectively treated as a stack
-
 	// Functions to convert values to character representations
 	char i_to_p(int);  // Convert integer value of a piece to it's char representation
 	int p_to_i(char); // Convert character value of piece to it's int representation
+	
+	// Declare friend class
+	// friend class MoveGen;
 };
 
 
