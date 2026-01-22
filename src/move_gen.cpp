@@ -147,6 +147,7 @@ void MoveGen::pawn_move(int i, int j){
 		b_app.set_value(i, j - 1, 'n'); // Remove black pawn that did a double step
 		b_app.set_white_turn(false);
 	        b_app.board_history.push_back(b);
+		b.next_moves.push_back(b_app);
 	    }
 	}
 
@@ -174,6 +175,7 @@ void MoveGen::pawn_move(int i, int j){
 		b_app.set_value(i, j + 1, 'n');
 		b_app.set_white_turn(false);
 	        b_app.board_history.push_back(b);
+		b.next_moves.push_back(b_app);
 	}
     }
 

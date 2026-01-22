@@ -99,7 +99,6 @@ bool test_pawn_move() {
     mg.get_board().board_history.push_back(previous_board);
 
     mg.generate_moves();
-    mg.get_board().print_board();
     if ( // next_moves[0] is the left capture scenario
 	mg.get_board().next_moves[0].get_index(5, 1) != 'n' ||
 	mg.get_board().next_moves[0].get_index(5, 2) != 'n' ||
@@ -116,7 +115,7 @@ bool test_pawn_move() {
 	mg.get_board().next_moves[1].get_index(5, 2) != 'n' ||
 	mg.get_board().next_moves[1].get_index(6, 1) != 'n' ||
 	mg.get_board().next_moves[1].get_index(6, 2) != 'k' ||
-        mg.get_board().next_moves[1].get_index(5, 3) != 'P' 
+        mg.get_board().next_moves[1].get_index(6, 3) != 'P' 
        ) {
 	std::cout << "test_move_gen test_pawn_move test 3 failed!" << std::endl;
 	std::cout << "en-passant right capture failed:" << std::endl;
