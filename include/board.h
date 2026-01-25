@@ -37,6 +37,7 @@ class Board{
 	void set_white_turn(bool);
 
 	void direct_set_board_section(int, unsigned long long int); // Only meant to be used for testing
+	void change_color(); // Flips board so that black pieces and white pieces change location.
 
 	// Vector to store all potential moves
 	vector<Board> next_moves;
@@ -62,6 +63,7 @@ class Board{
 	
 	// Declare friend class
 	// friend class MoveGen;
+	static char swap_piece_color(char);
 };
 
 

@@ -329,3 +329,76 @@ bool Board::get_white_turn(){
 void Board::set_white_turn(bool wt){
     white_turn = wt;
 };
+
+char Board::swap_piece_color(char input) {
+    // Simple helper function to move a white to black or black to white
+    switch (input) {
+	case 'n':
+	    return 'n';
+	    break;
+	case 'p':
+	    return 'P';
+	    break;
+	case 'r':
+	    return 'R';
+	    break;
+	case 'b':
+	    return 'B';
+	    break;
+	case 'h':
+	    return 'H';
+	    break;
+	case 'q':
+	    return 'Q';
+	    break;
+	case 'k':
+	    return 'K';
+	    break;
+	
+	case 'P':
+	    return 'p';
+	    break;
+	case 'R':
+	    return 'r';
+	    break;
+	case 'B':
+	    return 'b';
+	    break;
+	case 'H':
+	    return 'h';
+	    break;
+	case 'Q':
+	    return 'q';
+	    break;
+	case 'K':
+	    return 'k';
+	    break;
+	default:
+	    return 'x';
+	    break;
+    }
+
+    return 'x';
+};
+
+
+void Board::change_color(){
+    // Replaces all white pieces with black and black pieces with white
+    Board temp;
+
+    for (int i = 1; i <= 8; i++) {
+	for (int j = 1; j <= 8; j++) {
+	    temp.set_value(9 - i, 9 - j, swap_piece_color(get_index(i, j)));
+	}
+    }
+
+    // Update attributes of current board to match the temp board
+    ab = temp.ab;
+    cd = temp.cd;
+    ef = temp.ef;
+    gh = temp.gh;
+
+    // Finish function
+    return;
+
+};

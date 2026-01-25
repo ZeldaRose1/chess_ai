@@ -86,9 +86,57 @@ void test_setter_getter() {
 
 };
 
+bool test_change_color(){
+    // Initialize board and set values to match
+    Board b;
+
+    b.direct_set_board_section(1, 0);
+    b.direct_set_board_section(2, 0);
+    b.direct_set_board_section(3, 0);
+    b.direct_set_board_section(4, 0);
+
+    b.set_value(2, 2, 'P');
+    b.set_value(2, 7, 'K');
+    b.set_value(4, 6, 'h');
+    b.set_value(5, 2, 'Q');
+    b.set_value(5, 7, 'k');
+    b.set_value(7, 6, 'q');
+
+    b.print_board();
+    std::cout << "\n\n" << std::endl;
+    b.change_color();
+    b.print_board();
+
+    if (
+	b.get_index(2, 3) != 'Q' ||
+	b.get_index(4, 2) != 'K' ||
+	b.get_index(4, 7) != 'q' ||
+	b.get_index(5, 3) != 'H' ||
+	b.get_index(7, 2) != 'k' ||
+	b.get_index(7, 7) != 'p'
+       ){
+	// One or more conditions failed
+	std::cout << "test_change_color() failed! One or more conditions not met." << std::endl;
+	return false;
+    }
+
+    return true;
+};
+
 
 int test_board() {
+    // Initialize boolean
+    bool all_pass = true;
+
+    // Start tests
     test_setter_getter();
-    std::cout << "All tests in test_board.cpp finished successfully!" << endl;
-    return 0;
-}
+    all_pass = all_pass && test_change_color();
+
+    if (all_pass) {
+	std::cout << "All tests in test_board.cpp finished successfully!" << endl;
+	return 0;
+    } else {
+	std::cout << "Tests failed!" << endl;
+	return 1;
+    }
+};
