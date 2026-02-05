@@ -16,6 +16,11 @@ MAIN_FILE	:= $(BIN_DIR)/chess
 CXX		:= g++
 CXXFLAGS	:= -std=c++20 -Wall -I$(INC_DIR)
 
+DEBUG_FLAGS	:=
+ifeq ($(MAKECMDGOALS),test)
+	DEBUG_FLAGS	:= -g
+endif
+
 ### Collect file locations
 SOURCE		:= $(wildcard $(SRC_DIR)/*.cpp)
 OBJECTS		:= $(SOURCE:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
@@ -33,7 +38,7 @@ $(MAIN_FILE): $(OBJECTS)
 
 $(OBJECTS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp 
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) -c $< -o $@
 
 
 # Main testing file for all modules

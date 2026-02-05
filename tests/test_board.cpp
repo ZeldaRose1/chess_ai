@@ -102,10 +102,10 @@ bool test_change_color(){
     b.set_value(5, 7, 'k');
     b.set_value(7, 6, 'q');
 
-    b.print_board();
+    // b.print_board();
     std::cout << "\n\n" << std::endl;
     b.change_color();
-    b.print_board();
+    // b.print_board();
 
     if (
 	b.get_index(2, 3) != 'Q' ||

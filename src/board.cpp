@@ -39,11 +39,11 @@ int Board::p_to_i(char c) {
 	    n: Empty - 0
 
 	    p: black pawn - 13
-            r: black rook - 12
-            b: black bishop - 11
-            h: black knight (horse) - 10
-            q: black queen - 09
-            k: black king - 08
+	    r: black rook - 12
+	    b: black bishop - 11
+	    h: black knight (horse) - 10
+	    q: black queen - 09
+	    k: black king - 08
 
 	    P: white pawn - 01
 	    R: white rook - 02
@@ -336,6 +336,8 @@ char Board::swap_piece_color(char input) {
 	case 'n':
 	    return 'n';
 	    break;
+
+	// Move black pieces to white
 	case 'p':
 	    return 'P';
 	    break;
@@ -355,6 +357,7 @@ char Board::swap_piece_color(char input) {
 	    return 'K';
 	    break;
 	
+	// Move white pieces to black
 	case 'P':
 	    return 'p';
 	    break;
@@ -373,6 +376,8 @@ char Board::swap_piece_color(char input) {
 	case 'K':
 	    return 'k';
 	    break;
+
+	// Error on unknown characters
 	default:
 	    return 'x';
 	    break;
@@ -387,9 +392,9 @@ void Board::change_color(){
     Board temp;
 
     for (int i = 1; i <= 8; i++) {
-	for (int j = 1; j <= 8; j++) {
-	    temp.set_value(9 - i, 9 - j, swap_piece_color(get_index(i, j)));
-	}
+    	for (int j = 1; j <= 8; j++) {
+    	    temp.set_value(9 - i, 9 - j, swap_piece_color(get_index(i, j)));
+    	}
     }
 
     // Update attributes of current board to match the temp board

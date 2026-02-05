@@ -123,6 +123,51 @@ bool test_pawn_move() {
 	return false;
     }
 
+
+    // Test 4: black's turn
+    mg.get_board().direct_set_board_section(1, 0);
+    mg.get_board().direct_set_board_section(2, 0);
+    mg.get_board().direct_set_board_section(3, 0);
+    mg.get_board().direct_set_board_section(4, 0);
+
+    // Test setup
+    mg.get_board().set_value(7, 1, 'p');
+    mg.get_board().set_value(6, 2, 'P');
+    mg.get_board().set_white_turn(false); // Force black's turn.
+
+    // Generate moves
+    mg.generate_moves();
+    
+    // Validate behavior
+    // 1. Double step
+    if ( // Fail conditions
+        mg.get_board().next_moves[0].get_index(5, 1) != 'p' ||
+        mg.get_board().next_moves[0].get_index(7, 1) != 'n' ||
+        mg.get_board().next_moves[0].get_index(6, 2) != 'P' 
+    ) {
+        std::cout << "test_move_gen failed at pawn test 4.1!" << std::endl;
+        mg.get_board().next_moves[0].print_board();
+        return false;  
+    } else if ( // Standard move
+        mg.get_board().next_moves[1].get_index(5, 1) != 'n' ||
+        mg.get_board().next_moves[1].get_index(6, 1) != 'p' ||
+        mg.get_board().next_moves[1].get_index(7, 1) != 'n' ||
+        mg.get_board().next_moves[1].get_index(6, 2) != 'P' 
+    ) {
+        std::cout << "test_move_gen failed at pawn test 4.2!" << std::endl;
+        mg.get_board().next_moves[1].print_board();
+        return false;
+    } else if ( // Left capture test
+        mg.get_board().next_moves[2].get_index(5, 1) != 'n' ||
+        mg.get_board().next_moves[2].get_index(6, 1) != 'n' ||
+        mg.get_board().next_moves[2].get_index(7, 1) != 'n' ||
+        mg.get_board().next_moves[2].get_index(6, 2) != 'p' 
+    ) {
+        std::cout << "test_move_gen failed at pawn test 4.3!" << std::endl;
+        mg.get_board().next_moves[2].print_board();
+        return false;
+    }
+
     return true;
 };
 
