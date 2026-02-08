@@ -21,4 +21,7 @@ class MoveGen{
 	void rook_move(int, int);
 	void queen_move(int, int);
 	void king_move(int, int);
+
+	static bool is_black(char);
+	static bool is_white(char);
 };
