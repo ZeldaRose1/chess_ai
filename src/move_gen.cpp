@@ -431,6 +431,122 @@ void MoveGen::bishop_move(int i, int j) {
 };
 
 void MoveGen::rook_move(int i, int j) {
+    /*
+    Generate moves based on the current position of a rook
+    */
+
+    // Check pre-conditions
+    if (b.get_index(i, j) != 'R'){
+	std::cout << "Error! rook_move called on non-rook piece!" << std::endl;
+    }
+
+    // Initialize variables
+    int x = i + 1;
+    int y = j + 1;
+    bool blocked = false;
+    Board b_app;
+
+    // Branch 1: Move right
+    while (y <= 8 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(i, y)))
+	    break;
+	else if (is_black(b.get_index(i, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(i, y, 'R');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterator
+	y++;
+    }
+
+    // Reset breaking variable
+    blocked = false;
+
+    // Branch 2: Move up
+    while (x <= 8 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, j)))
+	    break;
+	else if (is_black(b.get_index(x, j))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, j, 'R');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterator
+	x++;
+    }
+
+
+    // Reset breaking variable
+    blocked = false;
+    x = i - 1;
+    y = j - 1;
+
+    // Branch 3: Move left
+    while (y >= 1 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(i, y)))
+	    break;
+	else if (is_black(b.get_index(i, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(i, y, 'R');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterator
+	y--;
+    }
+
+
+    // Reset breaking variable
+    blocked = false;
+
+    // Branch 4: Move down
+    while (x >= 1 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, j)))
+	    break;
+	else if (is_black(b.get_index(x, j))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, j, 'R');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterator
+	x--;
+    }
+
     return;
 };
 
