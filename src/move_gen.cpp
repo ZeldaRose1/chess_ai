@@ -92,28 +92,61 @@ void MoveGen::generate_moves() {
     // Function will loop through all squares and call the specific piece_move function
     for (int i = 1; i <= 8; i++) {
 	for (int j = 1; j <= 8; j++) {
+
+	    // Debug statement to stop program at specific iteration
+	    if (i == 6 && j == 8)
+		cout << "";
+
 	    switch (b.get_index(i, j)) {
 		case 'n':
 		    continue;
+		    break;
+		case 'p':
+		    continue;
+		    break;
+		case 'r':
+		    continue;
+		    break;
+		case 'b':
+		    continue;
+		    break;
+		case 'h':
+		    continue;
+		    break;
+		case 'k':
+		    continue;
+		    break;
+		case 'q':
+		    continue;
+		    break;
 		case 'P':
 		    pawn_move(i, j);
 		    continue;
+		    break;
 		case 'B':
 		    bishop_move(i, j);
 		    continue;
+		    break;
 		case 'R':
 		    rook_move(i, j);
 		    continue;
+		    break;
 		case 'H':
 		    knight_move(i, j);
 		    continue;
+		    break;
 		case 'Q':
 		    queen_move(i, j);
 		    continue;
+		    break;
 		case 'K':
 		    king_move(i, j);
 		    continue;
+		    break;
 		default:
+		    std::cout << "Error, board returning incorrect value!" << std::endl;
+		    std::cout << b.get_index(i, j) << std::endl;
+		    std::cout << "i:\t" << i << "\tj:\t" << j << std::endl;
 		    continue;
 	    }
 	}
@@ -189,7 +222,8 @@ void MoveGen::pawn_move(int i, int j){
 	    b_app.board_history.push_back(b);
 	    b.next_moves.push_back(b_app);
 	} else if ( // En Passant rule
-	    left_cap == 'n' && i == 5 && b.board_history.back().get_index(7, j - 1) == 'p' &&
+	    left_cap == 'n' && i == 5 && b.board_history.size() > 0 &&
+	    b.board_history.back().get_index(7, j - 1) == 'p' &&
 	    b.get_index(5, j - 1) == 'p' && b.get_index(7, j - 1) == 'n'
 	) {
 	    b_app = b;
@@ -216,7 +250,8 @@ void MoveGen::pawn_move(int i, int j){
 	    b_app.board_history.push_back(b);
 	    b.next_moves.push_back(b_app);
 	} else if ( // En Passant rule
-	    right_cap == 'n' && i == 5 && b.board_history.back().get_index(7, j + 1) == 'p' &&
+	    right_cap == 'n' && i == 5 && b.board_history.size() > 0
+	    && b.board_history.back().get_index(7, j + 1) == 'p' &&
 	    b.get_index(5, j + 1) == 'p' && b.get_index(7, j + 1) == 'n'
 	) {
 	    b_app = b;
@@ -551,6 +586,115 @@ void MoveGen::rook_move(int i, int j) {
 };
 
 void MoveGen::knight_move(int i, int j) {
+    // Generate moves for a knight on the board
+
+    // Ensure piece is correct
+    if (b.get_index(i, j) != 'H'){
+	std::cout << "Error! knight_move() called on a non-knight piece!" << std::endl;
+	throw 0;
+    }
+
+    // Initialize variables
+    int x;
+    int y;
+    Board b_app;
+
+    // Move 1: 2 right, 1 up
+    x = i + 1;
+    y = j + 2;
+    if (x <= 8 && y <= 8 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 2: 1 right, 2 up
+    x = i + 2;
+    y = j + 1;
+    if (x <= 8 && y <= 8 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 3: 1 left, 2 up
+    x = i + 2;
+    y = j - 1;
+    if (x <= 8 && y >= 1 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 4: 2 left, 1 up
+    x = i + 1;
+    y = j - 2;
+    if (x <= 8 && y >= 1 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 5: 2 left, 1 down
+    x = i - 1;
+    y = j - 2;
+    if (x >= 1 && y >= 1 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 6: 1 left, 2 down
+    x = i - 2;
+    y = j - 1;
+    if (x >= 1 && y >= 1 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 7: 1 right, 2 down
+    x = i - 2;
+    y = j + 1;
+    if (x >= 1 && y <= 8 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
+    // Move 8: 2 right, 1 down
+    x = i - 1;
+    y = j + 2;
+    if (x >= 1 && y <= 8 && !is_white(b.get_index(x, y))) {
+	b_app = b;
+	b_app.set_value(x, y, 'H');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+    }
+
     return;
 };
 

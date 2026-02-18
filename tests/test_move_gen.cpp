@@ -782,6 +782,354 @@ bool test_rook_move(){
     return true;
 };
 
+
+bool test_knight_move(){
+    // Validate performance of knight_move()
+    MoveGen mg;
+
+    /*    Test 1: Capture tests    */
+    // Setup board for initial Test
+    mg.get_board().direct_set_board_section(1, 0);
+    mg.get_board().direct_set_board_section(2, 0);
+    mg.get_board().direct_set_board_section(3, 0);
+    mg.get_board().direct_set_board_section(4, 0);
+
+    // Place knight
+    mg.get_board().set_value(4, 4, 'H');
+
+    // Place enemy pawns in order of move gen
+    mg.get_board().set_value(5, 6, 'p');
+    mg.get_board().set_value(6, 5, 'p');
+    mg.get_board().set_value(6, 3, 'p');
+    mg.get_board().set_value(5, 2, 'p');
+    mg.get_board().set_value(3, 2, 'p');
+    mg.get_board().set_value(2, 3, 'p');
+    mg.get_board().set_value(2, 5, 'p');
+    mg.get_board().set_value(3, 6, 'p');
+
+    // Run generator function
+    mg.generate_moves();
+
+    // Validate output
+    if (mg.get_board().next_moves.size() != 8) {
+	std::cout << "test_knight_move test 1 failed. Wrong move count\t" << std::endl;
+	std::cout << "Number of moves generated: " << mg.get_board().next_moves.size() << std::endl;
+	return false;
+    };
+
+    if (
+	mg.get_board().next_moves[0].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[0].get_index(5, 6) != 'H' ||
+	mg.get_board().next_moves[0].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[0].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[0].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[0].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[0].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[0].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[0].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 0" << std::endl;
+	mg.get_board().next_moves[0].print_board();
+	return false;
+    } else if (
+	mg.get_board().next_moves[1].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[1].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[1].get_index(6, 5) != 'H' ||
+	mg.get_board().next_moves[1].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[1].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[1].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[1].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[1].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[1].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 1" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[2].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[2].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[2].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[2].get_index(6, 3) != 'H' ||
+	mg.get_board().next_moves[2].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[2].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[2].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[2].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[2].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 2" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[3].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[3].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[3].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[3].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[3].get_index(5, 2) != 'H' ||
+	mg.get_board().next_moves[3].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[3].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[3].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[3].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 3" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[4].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[4].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[4].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[4].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[4].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[4].get_index(3, 2) != 'H' ||
+	mg.get_board().next_moves[4].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[4].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[4].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 4" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[5].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[5].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[5].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[5].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[5].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[5].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[5].get_index(2, 3) != 'H' ||
+	mg.get_board().next_moves[5].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[5].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 5" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[6].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[6].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[6].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[6].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[6].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[6].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[6].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[6].get_index(2, 5) != 'H' ||
+	mg.get_board().next_moves[6].get_index(3, 6) != 'p'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 6" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[7].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[7].get_index(5, 6) != 'p' ||
+	mg.get_board().next_moves[7].get_index(6, 5) != 'p' ||
+	mg.get_board().next_moves[7].get_index(6, 3) != 'p' ||
+	mg.get_board().next_moves[7].get_index(5, 2) != 'p' ||
+	mg.get_board().next_moves[7].get_index(3, 2) != 'p' ||
+	mg.get_board().next_moves[7].get_index(2, 3) != 'p' ||
+	mg.get_board().next_moves[7].get_index(2, 5) != 'p' ||
+	mg.get_board().next_moves[7].get_index(3, 6) != 'H'
+    ) {
+	std::cout << "test_knight_move() failed at test 1: board 7" << std::endl;
+	return false;
+    }
+
+    // Debug statement
+    std::cout << "test_knight_move() test 1 passed!" << std::endl;
+
+    
+    /*    Test 2: Move tests    */
+    // Setup board for initial Test
+    mg.get_board().direct_set_board_section(1, 0);
+    mg.get_board().direct_set_board_section(2, 0);
+    mg.get_board().direct_set_board_section(3, 0);
+    mg.get_board().direct_set_board_section(4, 0);
+
+    // Place knight
+    mg.get_board().set_value(4, 4, 'H');
+
+    // Place enemy pawns in order of move gen
+    // mg.get_board().set_value(5, 6, 'n');
+    // mg.get_board().set_value(6, 5, 'n');
+    // mg.get_board().set_value(6, 3, 'n');
+    // mg.get_board().set_value(5, 2, 'n');
+    // mg.get_board().set_value(3, 2, 'n');
+    // mg.get_board().set_value(2, 3, 'n');
+    // mg.get_board().set_value(2, 5, 'n');
+    // mg.get_board().set_value(3, 6, 'n');
+
+    // Run generator function
+    mg.generate_moves();
+
+    // Validate output
+    if (mg.get_board().next_moves.size() != 8) {
+	std::cout << "test_knight_move test 2 failed. Wrong move count\t" << std::endl;
+	std::cout << "Number of moves generated: " << mg.get_board().next_moves.size() << std::endl;
+	return false;
+    };
+
+    if (
+	mg.get_board().next_moves[0].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[0].get_index(5, 6) != 'H' ||
+	mg.get_board().next_moves[0].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[0].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[0].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[0].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[0].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[0].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[0].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 0" << std::endl;
+	mg.get_board().next_moves[0].print_board();
+	return false;
+    } else if (
+	mg.get_board().next_moves[1].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[1].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[1].get_index(6, 5) != 'H' ||
+	mg.get_board().next_moves[1].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[1].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[1].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[1].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[1].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[1].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 1" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[2].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[2].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[2].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[2].get_index(6, 3) != 'H' ||
+	mg.get_board().next_moves[2].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[2].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[2].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[2].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[2].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 2" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[3].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[3].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[3].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[3].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[3].get_index(5, 2) != 'H' ||
+	mg.get_board().next_moves[3].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[3].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[3].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[3].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 3" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[4].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[4].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[4].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[4].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[4].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[4].get_index(3, 2) != 'H' ||
+	mg.get_board().next_moves[4].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[4].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[4].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 4" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[5].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[5].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[5].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[5].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[5].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[5].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[5].get_index(2, 3) != 'H' ||
+	mg.get_board().next_moves[5].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[5].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 5" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[6].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[6].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[6].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[6].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[6].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[6].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[6].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[6].get_index(2, 5) != 'H' ||
+	mg.get_board().next_moves[6].get_index(3, 6) != 'n'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 6" << std::endl;
+	return false;
+    } else if (
+	mg.get_board().next_moves[7].get_index(4, 4) != 'n' ||
+
+	mg.get_board().next_moves[7].get_index(5, 6) != 'n' ||
+	mg.get_board().next_moves[7].get_index(6, 5) != 'n' ||
+	mg.get_board().next_moves[7].get_index(6, 3) != 'n' ||
+	mg.get_board().next_moves[7].get_index(5, 2) != 'n' ||
+	mg.get_board().next_moves[7].get_index(3, 2) != 'n' ||
+	mg.get_board().next_moves[7].get_index(2, 3) != 'n' ||
+	mg.get_board().next_moves[7].get_index(2, 5) != 'n' ||
+	mg.get_board().next_moves[7].get_index(3, 6) != 'H'
+    ) {
+	std::cout << "test_knight_move() failed at test 2: board 7" << std::endl;
+	return false;
+    }
+
+    // Debug statement
+    std::cout << "test_knight_move() test 2 passed!" << std::endl;
+ 
+    /*    Test 3: White Blocking    */
+    // Setup board for initial Test
+    mg.get_board().direct_set_board_section(1, 0);
+    mg.get_board().direct_set_board_section(2, 0);
+    mg.get_board().direct_set_board_section(3, 0);
+    mg.get_board().direct_set_board_section(4, 0);
+
+    // Place knight
+    mg.get_board().set_value(4, 4, 'H');
+
+    // Place enemy pawns in order of move gen
+    mg.get_board().set_value(5, 6, 'P');
+    mg.get_board().set_value(6, 5, 'P');
+    mg.get_board().set_value(6, 3, 'P');
+    mg.get_board().set_value(5, 2, 'P');
+    mg.get_board().set_value(3, 2, 'P');
+    mg.get_board().set_value(2, 3, 'P');
+    mg.get_board().set_value(2, 5, 'P');
+    mg.get_board().set_value(3, 6, 'P');
+
+    // Block pawns from moving
+    mg.get_board().set_value(6, 6, 'p');
+    mg.get_board().set_value(7, 5, 'p');
+    mg.get_board().set_value(7, 3, 'p');
+    mg.get_board().set_value(6, 2, 'p');
+    mg.get_board().set_value(4, 2, 'p');
+    mg.get_board().set_value(3, 3, 'p');
+    mg.get_board().set_value(3, 5, 'p');
+    mg.get_board().set_value(4, 6, 'p');
+
+    std::cout << "test_knight_move() test 3 board setup!" << std::endl;
+    // Run generator function
+    mg.generate_moves();
+
+    // Validate output
+    if (mg.get_board().next_moves.size() != 0){
+	std::cout << "test_knight_move() failed at test 3. Wrong move count generated" << std::endl;
+	std::cout << "Expected:  0\t\tOutput:  " << mg.get_board().next_moves.size() << std::endl;
+	return false;
+    };
+
+    // If all tests pass, return true
+    return true;
+};
+
+
 // Main driver function for this test module
 int test_move_gen() {
     // Run all functions defined above.
@@ -791,6 +1139,7 @@ int test_move_gen() {
     all_pass = all_pass && test_pawn_move();
     all_pass = all_pass && test_bishop_move();
     all_pass = all_pass && test_rook_move();
+    all_pass = all_pass && test_knight_move();
     
     if (all_pass)
 	std::cout << "All tests ran successfully!" << std::endl;

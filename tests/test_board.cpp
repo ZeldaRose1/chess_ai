@@ -84,6 +84,23 @@ void test_setter_getter() {
 	}
     }
 
+    // Test 3: Test upper limits on last board:
+
+    // Set values
+    for (int i = 7; i <= 8; i++){
+	for (int j = 1; j <= 8; j++){
+	    b.set_value(i, j, 'p');
+	}
+    }
+
+    // Validate performance
+    for (int i = 7; i <= 8; i++){
+	for (int j = 1; j <= 8; j++){
+	    assert (b.get_index(i, j) == 'p');
+	}
+    }
+
+
 };
 
 bool test_change_color(){
