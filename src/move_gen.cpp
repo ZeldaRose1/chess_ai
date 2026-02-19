@@ -93,10 +93,6 @@ void MoveGen::generate_moves() {
     for (int i = 1; i <= 8; i++) {
 	for (int j = 1; j <= 8; j++) {
 
-	    // Debug statement to stop program at specific iteration
-	    if (i == 6 && j == 8)
-		cout << "";
-
 	    switch (b.get_index(i, j)) {
 		case 'n':
 		    continue;
@@ -699,6 +695,249 @@ void MoveGen::knight_move(int i, int j) {
 };
 
 void MoveGen::queen_move(int i, int j) {
+    /*
+	Generates all moves for a queen and pushes the moves
+	to b.next_moves vector.
+
+	Moves will be generated in sequential order as if
+	the chess board was graphed on a unit circle.
+    */
+
+    // Verify called on correct piece
+    if (b.get_index(i, j) != 'Q'){
+	std::cout << "Error, MoveGen::queen_move() called on wrong piece!" << std::endl;
+	throw -1;
+    }
+
+    if (i < 1 || i > 8){
+	std::cout << "Error! MoveGen::queen_move() called with improper i value!" << std::endl;
+	std::cout << "i must be between 1 and 8.\ti:\t" << i << std::endl;
+	throw -1;
+    }
+    if (j < 1 || j > 8){
+	std::cout << "Error! MoveGen::queen_move() called with improper j value!" << std::endl;
+	std::cout << "j must be between 1 and 8.\tj:\t" << j << std::endl;
+	throw -1;
+    }
+
+    // Initialize variables
+    int x = i;
+    int y = j + 1;
+    bool blocked = false;
+    Board b_app;
+
+    // Step 1: Move right
+    while (y <= 8 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterator
+	y++;
+    }
+
+    // Step 2: Move upper-right diagonal
+
+    // Reset variables
+    x = i + 1;
+    y = j + 1;
+    blocked = false;
+
+    // Start loop
+    while (x <= 8 && y <= 8 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	x++;
+	y++;
+    }
+
+    // Step 3: Move up
+    x = i + 1;
+    y = j;
+    blocked = false;
+
+    while (x <= 8 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	x++;
+    }
+
+    // Step 4: Move upper-left diagonal
+    x = i + 1;
+    y = j - 1;
+    blocked = false;
+
+    while (x <= 8 && y >= 1 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	x++;
+	y--;
+    }
+
+    // Step 5: Move left
+    x = i;
+    y = j - 1;
+    blocked = false;
+
+    while (y >= 1 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	y--;
+    }
+
+    // Step 6: Move lower-left diagonal
+    x = i - 1;
+    y = j - 1;
+    blocked = false;
+
+    while (x >= 1 && y >= 1 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	x--;
+	y--;
+    }
+
+    // Step 7: Move down
+    x = i - 1;
+    y = j;
+    blocked = false;
+
+    while (x >= 1 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	x--;
+    }
+
+    // Step 8: Move lower-right diagonal
+    x = i - 1;
+    y = j + 1;
+    blocked = false;
+
+    while (x >= 1 && y <= 8 && !blocked) {
+
+	// Verify piece is not blocked
+	if (is_white(b.get_index(x, y)))
+	    break;
+	else if (is_black(b.get_index(x, y))){
+	    blocked = true;
+	}
+
+	// Space is either empty or capturable; append new board to next_moves
+	b_app = b;
+	b_app.set_value(x, y, 'Q');
+	b_app.set_value(i, j, 'n');
+	b_app.set_white_turn(!b_app.get_white_turn());
+	b_app.board_history.push_back(b);
+	b.next_moves.push_back(b_app);
+
+	// Increase iterators
+	x--;
+	y++;
+    }
+
+
     return;
 };
 
