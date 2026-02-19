@@ -1589,6 +1589,183 @@ bool test_queen_move(){
 	return false;
     }
 
+    // Test 2: Move and capture
+    mg.get_board().set_value(4, 4, 'Q');
+
+    mg.get_board().set_value(4, 6, 'P');
+    mg.get_board().set_value(6, 6, 'P');
+    mg.get_board().set_value(6, 4, 'P');
+    mg.get_board().set_value(6, 2, 'P');
+    mg.get_board().set_value(4, 2, 'P');
+    mg.get_board().set_value(2, 2, 'P');
+    mg.get_board().set_value(2, 4, 'P');
+    mg.get_board().set_value(2, 6, 'P');
+
+    mg.get_board().set_value(5, 6, 'p');
+    mg.get_board().set_value(7, 6, 'p');
+    mg.get_board().set_value(7, 4, 'p');
+    mg.get_board().set_value(7, 2, 'p');
+    mg.get_board().set_value(5, 2, 'p');
+    mg.get_board().set_value(3, 2, 'p');
+    mg.get_board().set_value(3, 4, 'p');
+    mg.get_board().set_value(3, 6, 'p');
+
+    // Run move gen
+    mg.generate_moves();
+
+    // Validate output
+    if (mg.get_board().next_moves.size() != 8) { // Two steps in 8 directions.
+	std::cout << "test_queen_move failed test 2; Invalid number of moves generated!" << std::endl;
+	std::cout << "8 expected, " << mg.get_board().next_moves.size() << " generated." << std::endl;
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[0].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[0].get_index(4, 5) != 'Q' ||
+	mg.get_board().next_moves[0].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[0].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[0].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[0].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[0].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[0].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[0].get_index(3, 5) != 'n'
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 0!" << std::endl;
+	mg.get_board().next_moves[0].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[1].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[1].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[1].get_index(5, 5) != 'Q' ||
+	mg.get_board().next_moves[1].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[1].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[1].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[1].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[1].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[1].get_index(3, 5) != 'n'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 1!" << std::endl;
+	mg.get_board().next_moves[1].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[2].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[2].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[2].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[2].get_index(5, 4) != 'Q' ||
+	mg.get_board().next_moves[2].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[2].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[2].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[2].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[2].get_index(3, 5) != 'n'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 2!" << std::endl;
+	mg.get_board().next_moves[2].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[3].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[3].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[3].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[3].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[3].get_index(5, 3) != 'Q' ||
+	mg.get_board().next_moves[3].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[3].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[3].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[3].get_index(3, 5) != 'n'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 3!" << std::endl;
+	mg.get_board().next_moves[3].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[4].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[4].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[4].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[4].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[4].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[4].get_index(4, 3) != 'Q' ||
+	mg.get_board().next_moves[4].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[4].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[4].get_index(3, 5) != 'n'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 4!" << std::endl;
+	mg.get_board().next_moves[4].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[5].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[5].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[5].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[5].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[5].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[5].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[5].get_index(3, 3) != 'Q' ||
+	mg.get_board().next_moves[5].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[5].get_index(3, 5) != 'n'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 5!" << std::endl;
+	mg.get_board().next_moves[5].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[6].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[6].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[6].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[6].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[6].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[6].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[6].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[6].get_index(3, 4) != 'Q' ||
+	mg.get_board().next_moves[6].get_index(3, 5) != 'n'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 6!" << std::endl;
+	mg.get_board().next_moves[6].print_board();
+	return false;
+    }
+    if (
+	mg.get_board().next_moves[7].get_index(4, 4) != 'n' ||
+
+	// Original empty squares
+	mg.get_board().next_moves[7].get_index(4, 5) != 'n' ||
+	mg.get_board().next_moves[7].get_index(5, 5) != 'n' ||
+	mg.get_board().next_moves[7].get_index(5, 4) != 'n' ||
+	mg.get_board().next_moves[7].get_index(5, 3) != 'n' ||
+	mg.get_board().next_moves[7].get_index(4, 3) != 'n' ||
+	mg.get_board().next_moves[7].get_index(3, 3) != 'n' ||
+	mg.get_board().next_moves[7].get_index(3, 4) != 'p' ||
+	mg.get_board().next_moves[7].get_index(3, 5) != 'Q'
+
+    ) {
+	std::cout << "test_queen_move() failed on test 2 board 7!" << std::endl;
+	mg.get_board().next_moves[7].print_board();
+	return false;
+    }
+
+
+
+    // All tests passed, return true
     return true;
 
 }
