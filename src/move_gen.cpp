@@ -942,6 +942,107 @@ void MoveGen::queen_move(int i, int j) {
 };
 
 void MoveGen::king_move(int i, int j) {
+    // Check all spaces that a king can move and add them to this->next_moves
+
+    // Validate assumptions
+    if (b.get_index(i, j) != 'K') {
+        // Invalid piece to call king_move on
+        return;
+    }
+
+    // Assumptions validated, declare variables
+    Board b_app;
+
+    // Move one right
+    if ( (j < 8) && (!is_white(b.get_index(i, j + 1)))) {
+        // Checking we have space to move to the right and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i, j + 1, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one upper-right
+    if ( (j < 8) && (i < 8) && (!is_white(b.get_index(i + 1, j + 1)))) {
+        // Checking we have space to move upper-right and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i + 1, j + 1, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one up
+    if ( (i < 8) && (!is_white(b.get_index(i + 1, j)))) {
+        // Checking we have space to move to the up and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i + 1, j, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one upper-left
+    if ( (j > 1) && (i < 8) && (!is_white(b.get_index(i + 1, j - 1)))) {
+        // Checking we have space to move upper-right and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i + 1, j - 1, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one left
+    if ( (j > 1) && (!is_white(b.get_index(i, j - 1)))) {
+        // Checking we have space to move to the left and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i, j - 1, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one lower-left
+    if ( (j > 1) && (i > 1) && (!is_white(b.get_index(i - 1, j - 1)))) {
+        // Checking we have space to move lower-left and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i - 1, j - 1, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one down
+    if ( (i > 1) && (!is_white(b.get_index(i - 1, j)))) {
+        // Checking we have space to move to down and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i - 1, j, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+    // Move one lower-right
+    if ( (j < 8) && (i > 1) && (!is_white(b.get_index(i - 1, j + 1)))) {
+        // Checking we have space to move lower-right and our other pieces aren't blocking.
+        b_app = b;
+	    b_app.set_value(i - 1, j + 1, 'K');
+	    b_app.set_value(i, j, 'n');
+	    b_app.set_white_turn(!b_app.get_white_turn());
+	    b_app.board_history.push_back(b);
+	    b.next_moves.push_back(b_app);
+    }
+
+
+
     return;
 };
 

@@ -1770,6 +1770,213 @@ bool test_queen_move(){
 
 }
 
+bool test_king_move(){
+    /*
+	Validate performance of MoveGen::king_move()
+    */
+
+    // Initialize class and prepare for initial test
+    MoveGen mg;
+
+    mg.get_board().direct_set_board_section(1, 0);
+    mg.get_board().direct_set_board_section(2, 0);
+    mg.get_board().direct_set_board_section(3, 0);
+    mg.get_board().direct_set_board_section(4, 0);
+
+
+    // Test 1: standard king move
+    // Test 1.1: white blocking
+    // Setup
+    mg.get_board().set_value(7, 3, 'K');
+    // Surround king with white Pawns
+    mg.get_board().set_value(7, 4, 'P');
+    mg.get_board().set_value(8, 4, 'P');
+    mg.get_board().set_value(8, 3, 'P');
+    mg.get_board().set_value(8, 2, 'P');
+    mg.get_board().set_value(7, 2, 'P');
+    mg.get_board().set_value(6, 2, 'P');
+    mg.get_board().set_value(6, 3, 'P');
+    mg.get_board().set_value(6, 4, 'P');
+    
+    // Note the pawns have no moves as they are butting against the edge of the board.
+    mg.generate_moves();
+    // Validate move gen results
+    if (mg.get_board().next_moves.size() != 0) {
+        std::cout << "Error in test_move_gen::test_king_move Test 1.1!" << std::endl;
+        std::cout << "Expected 0 future moves; received " << mg.get_board().next_moves.size();
+        std::cout << std::endl;
+        mg.get_board().print_board();
+        return false;
+    }
+    // Test 1.1 complete
+
+    // Test 1.2: standard king move
+    
+    // Clear Board
+    mg.get_board().direct_set_board_section(1, 0);
+    mg.get_board().direct_set_board_section(2, 0);
+    mg.get_board().direct_set_board_section(3, 0);
+    mg.get_board().direct_set_board_section(4, 0);
+
+    // Setup
+    mg.get_board().set_value(7, 3, 'K');
+
+    // Surround king with non-blocking pieces
+    mg.get_board().set_value(8, 3, 'p');
+    mg.get_board().set_value(7, 4, 'p');
+    mg.get_board().set_value(7, 2, 'p');
+    mg.get_board().set_value(6, 3, 'p');
+    
+    // Note the pawns have no moves as they are butting against the edge of the board.
+    mg.generate_moves();
+    // Validate move gen results
+    if (mg.get_board().next_moves.size() != 8) {
+        std::cout << "Error in test_move_gen::test_king_move!" << std::endl;
+        std::cout << "Expected 8 future moves; received " << mg.get_board().next_moves.size();
+        std::cout << std::endl;
+        mg.get_board().print_board();
+        return false;
+    } else if (
+        // Check Board 0: right move
+        mg.get_board().next_moves[0].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[0].get_index(7, 4) != 'K' ||
+        mg.get_board().next_moves[0].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[0].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[0].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[0].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[0].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[0].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[0].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 0" << std::endl;
+        mg.get_board().next_moves[0].print_board();
+        return false;
+    } else if (
+        // Check Board 1: upper-right move
+        mg.get_board().next_moves[1].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[1].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[1].get_index(8, 4) != 'K' ||
+        mg.get_board().next_moves[1].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[1].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[1].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[1].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[1].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[1].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 1" << std::endl;
+        mg.get_board().next_moves[1].print_board();
+        return false;
+    } else if (
+        // Check Board 2: up move
+        mg.get_board().next_moves[2].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[2].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[2].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[2].get_index(8, 3) != 'K' ||
+        mg.get_board().next_moves[2].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[2].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[2].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[2].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[2].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 2" << std::endl;
+        mg.get_board().next_moves[2].print_board();
+        return false;
+    } else if (
+        // Check Board 3: upper-left move
+        mg.get_board().next_moves[3].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[3].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[3].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[3].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[3].get_index(8, 2) != 'K' ||
+        mg.get_board().next_moves[3].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[3].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[3].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[3].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 3" << std::endl;
+        return false;
+    } else if (
+        // Check Board 4: left move
+        mg.get_board().next_moves[4].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[4].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[4].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[4].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[4].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[4].get_index(7, 2) != 'K' ||
+        mg.get_board().next_moves[4].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[4].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[4].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 4" << std::endl;
+        return false;
+    } else if (
+        // Check Board 5: lower-left move
+        mg.get_board().next_moves[5].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[5].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[5].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[5].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[5].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[5].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[5].get_index(6, 2) != 'K' ||
+        mg.get_board().next_moves[5].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[5].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 5" << std::endl;
+        return false;
+    } else if (
+        // Check Board 6: lower move
+        mg.get_board().next_moves[6].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[6].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[6].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[6].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[6].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[6].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[6].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[6].get_index(6, 3) != 'K' ||
+        mg.get_board().next_moves[6].get_index(6, 4) != 'n'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 6" << std::endl;
+        return false;
+    } else if (
+        // Check Board 7: lower-right move
+        mg.get_board().next_moves[7].get_index(7, 3) != 'n' ||
+
+        mg.get_board().next_moves[7].get_index(7, 4) != 'p' ||
+        mg.get_board().next_moves[7].get_index(8, 4) != 'n' ||
+        mg.get_board().next_moves[7].get_index(8, 3) != 'p' ||
+        mg.get_board().next_moves[7].get_index(8, 2) != 'n' ||
+        mg.get_board().next_moves[7].get_index(7, 2) != 'p' ||
+        mg.get_board().next_moves[7].get_index(6, 2) != 'n' ||
+        mg.get_board().next_moves[7].get_index(6, 3) != 'p' ||
+        mg.get_board().next_moves[7].get_index(6, 4) != 'K'
+    ) {
+        std::cout << "Error in test_move_gen::test_black_move!" << std::endl;
+        std::cout << "Test 1.2 failed on board 7" << std::endl;
+        return false;
+    }
+    // Test 1.2 complete
+
+
+    return true;
+}
+
+
+
+
 // Main driver function for this test module
 int test_move_gen() {
     // Run all functions defined above.
@@ -1781,6 +1988,7 @@ int test_move_gen() {
     all_pass = all_pass && test_rook_move();
     all_pass = all_pass && test_knight_move();
     all_pass = all_pass && test_queen_move();
+    all_pass = all_pass && test_king_move();
     
     if (all_pass)
 	std::cout << "All tests ran successfully!" << std::endl;
